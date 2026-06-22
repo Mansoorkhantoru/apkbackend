@@ -6,10 +6,16 @@ const dotenv = require("dotenv")
 dotenv.config()
 connected()
 const cors = require("cors")
-app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true })) 
 const {upload , cloudinary } = require("./config/cloudinary")
+
+
+app.use(cors({
+    origin: "https://rad-sorbet-b2105e.netlify.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 app.post("/addapp" ,  upload.single('image'), async(req,res)=>{
     try{
