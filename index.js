@@ -82,4 +82,35 @@ app.delete("/allapp/:id",async(req,res)=>{
         })
     }
 })
+const { SitemapStream, streamToPromise } = require('sitemap');
+
+app.get('/sitemap.xml', async (req, res) => {
+    try {
+        res.header('Content-Type', 'application/xml');
+        // Aapka frontend domain yahan hostname mein aayega
+        const smStream = new SitemapStream({ hostname: 'https://rad-sorbet-b2105e.netlify.app' });
+
+        // 1. Static pages
+        smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
+
+        // 2. Dynamic pages (MongoDB se App model ke through)
+        const apps = await App.find({});
+        apps.forEach(item => {
+            smStream.write({
+                url: `/allapp/${item._id}`, // Ya agar frontend ka detail page ka route alag ho toh woh likhein
+                changefreq: 'weekly',
+                priority: 0.8,
+                lastmod: item.updatedAt || item.createdAt
+            });
+        });
+
+        smStream.end();
+        const sitemap = await streamToPromise(smStream);
+        res.send(sitemap.toString());
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).end();
+    }
+});
 app.listen(3000)
