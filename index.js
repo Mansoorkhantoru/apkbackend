@@ -88,7 +88,7 @@ app.get('/sitemap.xml', async (req, res) => {
     try {
         res.header('Content-Type', 'application/xml');
         // Aapka frontend domain yahan hostname mein aayega
-        const smStream = new SitemapStream({ hostname: 'https://rad-sorbet-b2105e.netlify.app' });
+        const smStream = new SitemapStream({ hostname: 'https://apknu.com' });
 
         // 1. Static pages
         smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
