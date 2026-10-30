@@ -13,7 +13,8 @@ const { upload, cloudinary } = require("./config/cloudinary")
 
 // CORS setup (Localhost aur Netlify dono ke liye)
 app.use(cors({
-    origin: ["https://rad-sorbet-b2105e.netlify.app", "http://localhost:3000", "http://localhost:5173"],
+    origin: [  "https://apknu.com",
+        "https://www.apknu.com","https://rad-sorbet-b2105e.netlify.app", "http://localhost:3000", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
